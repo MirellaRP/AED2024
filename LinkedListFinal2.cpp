@@ -220,8 +220,6 @@ int main(){
     cout<<"Elemento 7: "<<LList[6]<<endl;
     cout<<"Elemento 8: "<<LList[7]<< "\n"<<endl;
 
-    cout<<"Tamano de la lista: "<<LList.size()<<endl;
-
     cout<<"Elemento del comienzo: "<<LList.front()<<endl;
     cout<<"Elemento del final: "<<LList.back()<< "\n"<<endl;
 
@@ -259,7 +257,6 @@ int main(){
     cout<<"Elemento 4: "<<LList[3]<<endl;
     cout<<"Elemento 5: "<<LList[4]<<endl;
     cout<<"Elemento 6: "<<LList[5]<< "\n"<<endl;
-    cout<<"Tamano de la lista: "<<LList.size()<<endl;
 
     LList.reverse();
     cout<<"Lista tal cual: "<<endl;
@@ -269,31 +266,9 @@ int main(){
     cout<<"Elemento 4: "<<LList[3]<<endl;
     cout<<"Elemento 5: "<<LList[4]<<endl;
     cout<<"Elemento 6: "<<LList[5]<< "\n"<<endl;
-    cout<<"Tamano de la lista: "<<LList.size()<<endl;
 
     LList.clear();
     cout<<"Lista vacia?: "<<LList.empty()<< "\n"<<endl;
-
-    LList.push_front(5);
-    LList.push_back(2);
-    LList.push_back(1);
-    LList.push_back(7);
-    LList.push_back(9);
-    LList.push_back(8);
-    LList.push_front(1);
-    LList.push_front(3);
-
-    cout<<"Lista despues hacer push: "<<endl;
-    cout<<"Elemento 1: "<<LList[0]<<endl;
-    cout<<"Elemento 2: "<<LList[1]<<endl;
-    cout<<"Elemento 3: "<<LList[2]<<endl;
-    cout<<"Elemento 4: "<<LList[3]<<endl;
-    cout<<"Elemento 5: "<<LList[4]<<endl;
-    cout<<"Elemento 6: "<<LList[5]<<endl;
-    cout<<"Elemento 7: "<<LList[6]<<endl;
-    cout<<"Elemento 8: "<<LList[7]<< "\n"<<endl;
-
-    cout<<"Tamano de la lista: "<<LList.size()<<endl;
 
 
     
