@@ -1,10 +1,13 @@
 #include <iostream>
 #include <cmath>
 #include <random>
+#include <set>
+#include <vector>
+#include <string>
 #include <type_traits>
 using namespace std;
 
-#define MAX_SIZE 20
+#define MAX_SIZE 50
 
 template <typename T, typename V>
 struct Node {
@@ -38,7 +41,6 @@ class LinkedList {
         }
         
         if(found==true){
-            cout<<"Key found, value has been refreshed"<<endl;
             return 0;
         }else{
             Node<T,V>* nodo = new Node<T,V>;
@@ -46,7 +48,6 @@ class LinkedList {
             nodo->value=valor;
             nodo->next=head;
             head=nodo;
-            cout<<"Pushing front"<<endl;
             return 1;
         }
   
@@ -54,7 +55,6 @@ class LinkedList {
 
     T pop_front() {// Remueve el elemento al comienzo
         if(head==NULL){ // Verificar si la lista esta vacia
-            cout<< "Lista vacia"<<endl;
             return T();
         }
         else{
@@ -84,7 +84,6 @@ class LinkedList {
             return temp->value;
         }
         else{
-            cout<<"No encontre el key"<<endl;
             return V();
         }
 
@@ -209,23 +208,16 @@ class TablaHash{
                 nkey+=(static_cast<int>(c))*static_cast<int>(pow(2,size-1));
                 size--;
             }
-            cout << "String " << key <<" converted to "<< nkey << endl;
             return nkey;
 
         } else if constexpr (std::is_same_v<T, char>) {
 
             nkey=static_cast<int>(key);
-            cout << "Char " << key <<" converted to "<< nkey << endl;
             return nkey;
 
         } else if constexpr (std::is_same_v<T, int>) {
             nkey=key;
-            cout << "Key is an integrer, it will remain the same "<< endl;
             return nkey;
-
-        // } else if constexpr (std::is_same_v<T, float>) {
-            
-        //     return nkey;
 
         }  else {
         cout << "This type of variable is not considered" << endl;
@@ -238,19 +230,24 @@ class TablaHash{
         int nkey=newkey(key);
         int index;
         index=(( a*nkey+b ) % P ) % m;
-        cout<<"Index created: "<<index<<endl;
         return index;
     }
 
     void insert(T key, V value){ //ya actualiza
         int index;
-        index=hashingfunction(key);  
-        int i=LlistArray[index].push_front(key,value); //que pasa en actualizacion y como chequeo si llego al maximo de profundidad?
-        nelements+=i;// Si encontro el key i es 0, si no lo encontro i es 1
-        fillfactor=nelements/(maxCol*m);
-        if(fillfactor<0.5){
-           //rehash 
+        index=hashingfunction(key);
+        if(LlistArray[index].size()>=maxCol){
+            cout<<"Index lleno, excediste las colisiones permitidas"<<endl;
+        }else{
+            int i=LlistArray[index].push_front(key,value); //que pasa en actualizacion y como chequeo si llego al maximo de profundidad?
+            nelements+=i;// Si encontro el key i es 0, si no lo encontro i es 1
+            fillfactor=nelements/(maxCol*m);
+            if(fillfactor<0.5){
+            //rehash 
+            }
+
         }
+        
     }
 
     V search(T key){
@@ -294,16 +291,15 @@ class TablaHash{
     
 };
 
+
+
 int main(){
-    TablaHash<char,int> Hash;
 
-    Hash.insert('c',15);
-    Hash.insert('a',10);
-    Hash.insert('t',12);
+    TablaHash<int,string> Hash;
 
-    Hash.showLists('c'); // Problema de esa funcion es que el a y el b cambian, como lo encuentra ahora?
-    Hash.showLists('a');
-    Hash.showLists('t');
-    Hash.showLists('f');
+    Hash.insert(2,"abc");
 
+
+    
+    
 }
