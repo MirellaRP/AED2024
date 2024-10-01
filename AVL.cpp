@@ -5,7 +5,7 @@
 using namespace std;
 
 // Logica y codigo basado en https://www.geeksforgeeks.org/insertion-in-an-avl-tree/ y 
-// https://www.enjoyalgorithms.com/blog/avl-tree-data-structure
+// https://www.enjoyalgorithms.com/blog/avl-tree-data-structure y ayuda de ChatGPT para arreglar problemas
 
 template <typename T>
 struct NodeBT {
@@ -39,12 +39,12 @@ class AVLTree {
             nuevo->right=NULL;
             nuevo->height=1;
             node=nuevo;
-            cout<<"Inserte el primer valor"<<endl;
+            //cout<<"Inserte el primer valor"<<endl;
             return node;
         }
         else if(value < node->data){
             if(node->left==NULL){
-                cout<<"Inserte el valor al lado izquierdo"<<endl;
+                //cout<<"Inserte el valor al lado izquierdo"<<endl;
                 NodeBT<T>* nuevo = new NodeBT<T>;
                 nuevo->data=value;
                 nuevo->left=NULL;
@@ -57,7 +57,7 @@ class AVLTree {
 
         }else if(value > node->data){
             if(node->right==NULL){
-                cout<<"Inserte el valor al lado derecho"<<endl;
+                //cout<<"Inserte el valor al lado derecho"<<endl;
                 NodeBT<T>* nuevo = new NodeBT<T>;
                 nuevo->data=value;
                 nuevo->left=NULL;
@@ -77,15 +77,15 @@ class AVLTree {
         //Obtengo el factor de balance y verifico donde esta el desbalance
         int fbal=fb(node);
         if(fbal>1){
-            cout<<"Voy a rotar porque esta mas alto a la izquierda"<<endl;
-            if(fb(node->left)>=1){ // el mismo signo
+            //cout<<"Voy a rotar porque esta mas alto a la izquierda"<<endl;
+            if(fb(node->left)>=0){ // el mismo signo
                 return rotateRight(node);
             }else{
                 return rotateLeftRight(node);
             }
         } else if(fbal<-1){
-            cout<<"Voy a rotar porque esta mas alto a la derecha"<<endl;
-            if(fb(node->right)<=-1){ // el mismo signo
+            //cout<<"Voy a rotar porque esta mas alto a la derecha"<<endl;
+            if(fb(node->right)<=0){ // el mismo signo
                 return rotateLeft(node);
             }else{
                 return rotateRightLeft(node);
@@ -299,9 +299,6 @@ class AVLTree {
     
     }
 
-
-
-
     // Funcion para visualizar mi arbol binario
     // Funcion generada por chatgpt solo para visualizacion
     void imprimirarbol(NodeBT<T>* node, int space) const {
@@ -309,12 +306,12 @@ class AVLTree {
             return;
         }
 
-        space += 5;
+        space += 6;
 
         imprimirarbol(node->right, space);
 
         cout << endl;
-        for (int i = 5; i < space; i++) {
+        for (int i = 6; i < space; i++) {
             cout << " "; 
         }
         cout << node->data << "\n";
@@ -371,23 +368,107 @@ class AVLTree {
         return vector;
     }
 
+    NodeBT<T>* deleteinTree(NodeBT<T>* node, T value) //nuevo
+    {
+        // Caso base
+        if (node == NULL){
+            return node;
+        }
+            
+        if (node->data > value){
+            node->left = deleteinTree(node->left, value);
+        }    
+        else if (node->data < value){
+            node->right = deleteinTree(node->right, value);
+        } else { //Si lo encuentra
+
+            if (node->left == NULL) {
+                NodeBT<T>* temp = node->right;
+                delete node;
+                return temp;
+            }
+
+            if (node->right == NULL) {
+                NodeBT<T>* temp = node->left;
+                delete node;
+                return temp;
+            }
+
+            // Cuando ambos hijos estan pasa esto
+            NodeBT<T>* successor = findPredecesor(node->data);
+            node->data = successor->data;
+            node->left = deleteinTree(node->left, successor->data);
+            cout<<"Hallo predecesor"<<endl;
+            
+        }
+        
+        // Se hace el update del height
+        updateHeight(node);
+        
+        //Obtengo el factor de balance y verifico donde esta el desbalance
+        int fbal=fb(node);
+        cout<<"Node data: "<<node->data<<" fb: "<<fbal<<endl;
+        if(fbal>1){
+            if(fb(node->left)>=0){ // el mismo signo
+                cout<<"Roto a la derecha"<<endl;
+                return rotateRight(node);
+            }else{
+                cout<<"Roto a la izquierda y luego derecha"<<endl;
+                return rotateLeftRight(node);
+            }
+        } else if(fbal<-1){
+            
+            if(fb(node->right)<=0){ // el mismo signo
+                cout<<"Roto a izquierda"<<endl;
+                return rotateLeft(node);
+            }else{
+                cout<<"Roto a la izquierda y derecha"<<endl;
+                return rotateRightLeft(node);
+            }
+        }
+        // Retornar el nodo
+        return node;
+    }
+
+    void deleteNode(T value){
+        root=deleteinTree(root,value);
+    }
+
+
 };
 
 int main(){
     AVLTree<string> AVL;
     AVL.insertNode("Maio");
-    AVL.insertNode("Agosto");
     AVL.insertNode("Marco");
+    AVL.insertNode("Novembro");
+    AVL.insertNode("Agosto");
     AVL.insertNode("Abril");
     AVL.insertNode("Janeiro");
-    AVL.insertNode("Novembro");
-    AVL.insertNode("Decembro");
+    AVL.insertNode("Dezembro");
     AVL.insertNode("Julho");
-    AVL.insertNode("Febriro");
+    AVL.insertNode("Fevereiro");
+    AVL.insertNode("Junho");
+    AVL.insertNode("Outubro");
+    AVL.insertNode("Setembro");
 
     // Visualizar arbol
     cout<<"Arbol anterior: "<<endl;
     AVL.visualizararbol();
+
+    cout<<"------- Fin de primera prueba----------"<<endl;
+
+    AVLTree<int> AVL1;
+    AVL1.insertNode(4);
+    AVL1.insertNode(5);
+    AVL1.insertNode(7);
+    AVL1.insertNode(2);
+    AVL1.insertNode(1);
+    AVL1.insertNode(3);
+    AVL1.insertNode(6);
+    // Visualizar arbol
+    cout<<"Arbol anterior: "<<endl;
+    AVL1.visualizararbol();
 
     // Inorder
     vector<string> inorder=AVL.inordertree();
@@ -415,4 +496,43 @@ int main(){
     
     // Encontrar algo detallado de un arbol
     //cout<<AVL.findNode(AVL.getroot(),8)->left->data<<endl;
+
+    AVLTree<int> AVL2;
+    AVL2.insertNode(5);
+    AVL2.insertNode(3);
+    AVL2.insertNode(8);
+    AVL2.insertNode(2);
+    AVL2.insertNode(4);
+    AVL2.insertNode(7);
+    AVL2.insertNode(10);
+    AVL2.insertNode(1);
+    AVL2.insertNode(6);
+    AVL2.insertNode(9);
+    AVL2.insertNode(11);
+    AVL2.visualizararbol();
+    cout<<"-------Remuevo 4----------"<<endl;
+    AVL2.deleteNode(4);
+    AVL2.visualizararbol();
+    cout<<"-------Remuevo 8----------"<<endl;
+    AVL2.deleteNode(8);
+    AVL2.visualizararbol();
+    cout<<"-------Remuevo 6----------"<<endl;
+    AVL2.deleteNode(6);
+    AVL2.visualizararbol();
+    cout<<"-------Remuevo 5----------"<<endl;
+    AVL2.deleteNode(5);
+    AVL2.visualizararbol();
+    cout<<"-------Remuevo 2----------"<<endl;
+    AVL2.deleteNode(2);
+    AVL2.visualizararbol();
+    cout<<"-------Remuevo 1----------"<<endl;
+    AVL2.deleteNode(1);
+    AVL2.visualizararbol();
+    cout<<"-------Remuevo 7----------"<<endl;
+    AVL2.deleteNode(7);
+    AVL2.visualizararbol();
+    cout<<"-------Remuevo 11----------"<<endl;
+    AVL2.deleteNode(11);
+    AVL2.visualizararbol();
+
 }
