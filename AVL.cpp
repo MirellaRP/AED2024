@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include <string>
 using namespace std;
 
 // Logica y codigo basado en https://www.geeksforgeeks.org/insertion-in-an-avl-tree/ y 
@@ -76,15 +77,15 @@ class AVLTree {
         //Obtengo el factor de balance y verifico donde esta el desbalance
         int fbal=fb(node);
         if(fbal>1){
-            cout<<"Roto porque esta mas alto a la izquierda"<<endl;
-            if(fb(node->left)>=1){ // o el mismo signo
+            cout<<"Voy a rotar porque esta mas alto a la izquierda"<<endl;
+            if(fb(node->left)>=1){ // el mismo signo
                 return rotateRight(node);
             }else{
                 return rotateLeftRight(node);
             }
         } else if(fbal<-1){
-            cout<<""<<endl;
-            if(fb(node->right)<=-1){ // o el mismo signo
+            cout<<"Voy a rotar porque esta mas alto a la derecha"<<endl;
+            if(fb(node->right)<=-1){ // el mismo signo
                 return rotateLeft(node);
             }else{
                 return rotateRightLeft(node);
@@ -334,7 +335,7 @@ class AVLTree {
     }
 
     vector<T> inordertree(){
-        vector<int> vector;
+        vector<T> vector;
         inorder(root,vector);
         return vector;
     }
@@ -349,7 +350,7 @@ class AVLTree {
     }
 
     vector<T> preordertree(){
-        vector<int> vector;
+        vector<T> vector;
         preorder(root,vector);
         return vector;
     }
@@ -364,8 +365,8 @@ class AVLTree {
         
     }
 
-    vector<int> posordertree(){
-        vector<int> vector;
+    vector<T> posordertree(){
+        vector<T> vector;
         posorder(root,vector);
         return vector;
     }
@@ -373,42 +374,41 @@ class AVLTree {
 };
 
 int main(){
-    AVLTree<int> AVL;
-    AVL.insertNode(5);
-    AVL.insertNode(3);
-    AVL.insertNode(2);
-    AVL.insertNode(7);
-    AVL.insertNode(1);
-    AVL.insertNode(6);
-    AVL.insertNode(10);
-    AVL.insertNode(-1);
-    AVL.insertNode(9);
-    AVL.insertNode(11);
+    AVLTree<string> AVL;
+    AVL.insertNode("Maio");
+    AVL.insertNode("Agosto");
+    AVL.insertNode("Marco");
+    AVL.insertNode("Abril");
+    AVL.insertNode("Janeiro");
+    AVL.insertNode("Novembro");
+    AVL.insertNode("Decembro");
+    AVL.insertNode("Julho");
+    AVL.insertNode("Febriro");
 
     // Visualizar arbol
     cout<<"Arbol anterior: "<<endl;
     AVL.visualizararbol();
 
     // Inorder
-    vector<int> inorder=AVL.inordertree();
+    vector<string> inorder=AVL.inordertree();
 
-    for(int nodo:inorder){
+    for(string nodo:inorder){
         cout<<nodo<<" , "; 
     }
     cout<<endl;
 
     // Preorder
-    vector<int> preorder=AVL.preordertree();
+    vector<string> preorder=AVL.preordertree();
 
-    for(int nodo:preorder){
+    for(string nodo:preorder){
         cout<<nodo<<" , "; 
     }
     cout<<endl;
 
     // Posorder
-    vector<int> posorder=AVL.posordertree();
+    vector<string> posorder=AVL.posordertree();
 
-    for(int nodo:posorder){
+    for(string nodo:posorder){
         cout<<nodo<<" , "; 
     }
     cout<<endl;
