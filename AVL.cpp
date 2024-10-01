@@ -76,15 +76,15 @@ class AVLTree {
         //Obtengo el factor de balance y verifico donde esta el desbalance
         int fbal=fb(node);
         if(fbal>1){
-            cout<<"Roto"<<endl;
-            if(fb(node->left)==1){
+            cout<<"Roto porque esta mas alto a la izquierda"<<endl;
+            if(fb(node->left)>=1){ // o el mismo signo
                 return rotateRight(node);
             }else{
                 return rotateLeftRight(node);
             }
         } else if(fbal<-1){
             cout<<""<<endl;
-            if(fb(node->right)==-1){
+            if(fb(node->right)<=-1){ // o el mismo signo
                 return rotateLeft(node);
             }else{
                 return rotateRightLeft(node);
@@ -388,8 +388,6 @@ int main(){
     // Visualizar arbol
     cout<<"Arbol anterior: "<<endl;
     AVL.visualizararbol();
-
-
 
     // Inorder
     vector<int> inorder=AVL.inordertree();
