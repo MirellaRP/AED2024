@@ -4,8 +4,11 @@
 #include <string>
 using namespace std;
 
+
 // Logica y codigo basado en https://www.geeksforgeeks.org/insertion-in-an-avl-tree/ y 
 // https://www.enjoyalgorithms.com/blog/avl-tree-data-structure y ayuda de ChatGPT para arreglar problemas
+
+
 
 template <typename T>
 struct NodeBT {
@@ -434,105 +437,80 @@ class AVLTree {
         root=deleteinTree(root,value);
     }
 
+    // void BreadthFirstSearch(vector<T>& vector){ // De la ppt
+    //     Queue<NodeBT<T>*> queue;
+    //     queue.enqueue(root);
+    //     while(!queue.isempty()){
+    //         NodeBT<T>* node = queue.dequeue();
+    //         cout<<node->data<<endl;
+    //         vector.push_back(node->data);
+    //         if(node->left != nullptr)
+    //             queue.enqueue(node->left);
+    //         if(node->right != nullptr)
+    //             queue.enqueue(node->right);
+    //         }
+    // }
+
+    // vector<T> BFS(){
+    //     vector<T> vector;
+    //     BreadthFirstSearch(vector);
+    //     return vector;
+    // }
+
 
 };
 
 int main(){
-    AVLTree<string> AVL;
-    AVL.insertNode("Maio");
-    AVL.insertNode("Marco");
-    AVL.insertNode("Novembro");
-    AVL.insertNode("Agosto");
-    AVL.insertNode("Abril");
-    AVL.insertNode("Janeiro");
-    AVL.insertNode("Dezembro");
-    AVL.insertNode("Julho");
-    AVL.insertNode("Fevereiro");
-    AVL.insertNode("Junho");
-    AVL.insertNode("Outubro");
-    AVL.insertNode("Setembro");
-
-    // Visualizar arbol
-    cout<<"Arbol anterior: "<<endl;
-    AVL.visualizararbol();
-
     cout<<"------- Fin de primera prueba----------"<<endl;
 
     AVLTree<int> AVL1;
+    AVL1.insertNode(1);
+    AVL1.insertNode(2);
+    AVL1.insertNode(3);
     AVL1.insertNode(4);
     AVL1.insertNode(5);
-    AVL1.insertNode(7);
-    AVL1.insertNode(2);
-    AVL1.insertNode(1);
-    AVL1.insertNode(3);
     AVL1.insertNode(6);
+    AVL1.insertNode(7);
+    AVL1.insertNode(8);
+    AVL1.insertNode(9);
+    AVL1.insertNode(10);
     // Visualizar arbol
     cout<<"Arbol anterior: "<<endl;
     AVL1.visualizararbol();
 
     // Inorder
-    vector<string> inorder=AVL.inordertree();
+    vector<int> inorder=AVL1.inordertree();
 
-    for(string nodo:inorder){
+    for(int nodo:inorder){
         cout<<nodo<<" , "; 
     }
     cout<<endl;
 
     // Preorder
-    vector<string> preorder=AVL.preordertree();
+    vector<int> preorder=AVL1.preordertree();
 
-    for(string nodo:preorder){
+    for(int nodo:preorder){
         cout<<nodo<<" , "; 
     }
     cout<<endl;
 
     // Posorder
-    vector<string> posorder=AVL.posordertree();
+    vector<int> posorder=AVL1.posordertree();
 
-    for(string nodo:posorder){
+    for(int nodo:posorder){
         cout<<nodo<<" , "; 
     }
     cout<<endl;
-    
-    // Encontrar algo detallado de un arbol
-    //cout<<AVL.findNode(AVL.getroot(),8)->left->data<<endl;
 
-    AVLTree<int> AVL2;
-    AVL2.insertNode(5);
-    AVL2.insertNode(3);
-    AVL2.insertNode(8);
-    AVL2.insertNode(2);
-    AVL2.insertNode(4);
-    AVL2.insertNode(7);
-    AVL2.insertNode(10);
-    AVL2.insertNode(1);
-    AVL2.insertNode(6);
-    AVL2.insertNode(9);
-    AVL2.insertNode(11);
-    AVL2.visualizararbol();
-    cout<<"-------Remuevo 4----------"<<endl;
-    AVL2.deleteNode(4);
-    AVL2.visualizararbol();
-    cout<<"-------Remuevo 8----------"<<endl;
-    AVL2.deleteNode(8);
-    AVL2.visualizararbol();
-    cout<<"-------Remuevo 6----------"<<endl;
-    AVL2.deleteNode(6);
-    AVL2.visualizararbol();
-    cout<<"-------Remuevo 5----------"<<endl;
-    AVL2.deleteNode(5);
-    AVL2.visualizararbol();
-    cout<<"-------Remuevo 2----------"<<endl;
-    AVL2.deleteNode(2);
-    AVL2.visualizararbol();
-    cout<<"-------Remuevo 1----------"<<endl;
-    AVL2.deleteNode(1);
-    AVL2.visualizararbol();
-    cout<<"-------Remuevo 7----------"<<endl;
-    AVL2.deleteNode(7);
-    AVL2.visualizararbol();
-    cout<<"-------Remuevo 11----------"<<endl;
-    AVL2.deleteNode(11);
-    AVL2.visualizararbol();
+
+    // // BFS
+    // vector<int> BFS1=AVL1.BFS();
+
+    // for(int nodo:BFS1){
+    //     cout<<nodo<<" , "; 
+    // }
+    // cout<<endl;
+    
+    
 
 }
