@@ -256,52 +256,6 @@ class AVLTree {
         return predecesor;
     
     }
-    
-    //Logica Basada en EnoyAlgorithms
-    //https://www.enjoyalgorithms.com/blog/inorder-successor-in-binary-search-tree
-    NodeBT<T>* findSuccessor(T value){
-
-        NodeBT<T>* temp = findNode(root,value);
-        NodeBT<T>* successor = NULL;
-        bool flag=false;
-       
-        if(root==NULL){
-            // Si tu arbol esta vacio se entrega
-            cout<<"Root vacio"<<endl;
-            return NULL;
-        }
-
-        //Si llega al valor pero si tiene un nodo izquierdo, en ese lado si o si esta su predecesor
-        // Aqui se hace lo de clase
-        if(temp->right!=NULL){
-            temp=temp->right;
-            while(temp->left!=NULL){
-                temp=temp->left;
-            }
-            successor=temp;
-            flag=true;
-        }
-
-        temp=root;
-        while(temp!=NULL && flag!=true){
-            // Voy a buscar el nodo que tiene el valor
-            if(value<temp->data){ // Si el valor es menor que el valor del nodo, voy a la guardo que el predecesor puede ser ese y voy a la izquierda
-                successor = temp;
-                temp=temp->left;
-            }
-            else if(value>temp->data){ //Si el valor es mayor que el valor del nodo, voy a la derecha
-                temp=temp->right;
-            }else{
-                // Si no tiene algo a la izquierda en anterior predecesor queda como el predecesor
-                //Rompemos el while
-                flag=true;
-            }
-        }
-
-        return successor;
-    
-    }
-
 
     void preorder(NodeBT<T>* node, vector<T>& vector){
         if (node == NULL) {
