@@ -5,7 +5,7 @@
 #include <string>
 #include <type_traits>
 using namespace std;
-
+// ** HW3 Natalia Watson, Mirella Rivas, Angie Rodriguez
 #define MAX_SIZE 50
 
 template <typename T, typename V>
