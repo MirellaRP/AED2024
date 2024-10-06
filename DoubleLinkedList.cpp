@@ -235,7 +235,23 @@ class DLList {
         delete temp;
 
 
-    } 
+    }
+
+    Node<T>* ghead(){
+        return head;
+    }
+
+    Node<T>* gtail(){
+        return tail;
+    }
+
+    void mtail(Node<T>* node){
+        tail=node;
+    }
+
+    void mhead(Node<T>* node){
+        head=node;
+    }
 
 };
 
