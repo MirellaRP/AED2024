@@ -159,6 +159,8 @@ public:
             index = hashingfunction(key);
         }
 
+
+
         int i = LlistArray[index].push_front(key, value);
         nelements += i;
 
@@ -171,6 +173,15 @@ public:
     V search(T key) {
         int index = hashingfunction(key);
         return LlistArray[index].findKey(key);
+    }
+
+    bool exists(T key){
+        int index = hashingfunction(key);
+        if(LlistArray[index].findKey(key)==V()){
+            return false;
+        }
+        return true;
+
     }
 
     void Delete(T key) {
