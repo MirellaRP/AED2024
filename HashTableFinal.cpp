@@ -134,9 +134,18 @@ public:
     int newkey(T key) {
         int nkey = 0;
         if constexpr (std::is_same_v<T, std::string>) {
+            nkey = 0;
+            int size=0;
             for (char c : key) {
-                nkey = nkey * 31 + c;
+                size++;
             }
+
+            for (char c:key)
+            {
+                nkey+=(static_cast<int>(c))*static_cast<int>(pow(2,size-1));
+                size--;
+            }
+            
         } else if constexpr (std::is_same_v<T, char> || std::is_same_v<T, int>) {
             nkey = static_cast<int>(key);
         } else if constexpr (std::is_same_v<T, float>) {
