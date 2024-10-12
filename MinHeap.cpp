@@ -34,13 +34,6 @@ class MinHeap {
         }
     }
 
-    // void BuildMaxHeap(){ // Usando el algoritmo de clase y ayuda de ChatGPT
-    //     nelements=Array.size();
-    //     for(int i= nelements/2 - 1; i>=0;i--){
-    //         MaxHeapify(i);
-    //     }
-    // }// Puedo usarlo para otro array que quiera ordenar independientemente
-
     
     vector<T> BuildMinHeap(vector<T> v){ // Usando el algoritmo de clase y ayuda de ChatGPT
         vector<T> prev=Array;
