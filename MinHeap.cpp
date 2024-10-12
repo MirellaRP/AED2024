@@ -19,10 +19,10 @@ class MinHeap {
         int d = 2 * index+2;
         int menor=index;
 
-        if(e<=nelements && Array[e]<Array[index]){
+        if(e<nelements && Array[e]<Array[index]){
             menor=e;
         }
-        if(d<=nelements && Array[d]<Array[menor]){
+        if(d<nelements && Array[d]<Array[menor]){
             menor=d;
         }
 
