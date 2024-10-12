@@ -6,8 +6,6 @@ using namespace std;
 
 template <typename T>
 class MinHeap {
-    
-    NodeBT<T>* root;
     vector<T> Array;
     int nelements;
 
