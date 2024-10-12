@@ -12,7 +12,7 @@ class MaxHeap {
 
     public:
     
-    MaxHeap() : root(NULL), nelements(0) {} // Inicializo el root como null 
+    MaxHeap() : nelements(0) {} // Inicializo el root como null 
 
     void MaxHeapify (int index){ // Usando el algoritmo de clase y ayuda de ChatGPT
 
