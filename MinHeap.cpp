@@ -5,14 +5,6 @@
 using namespace std;
 
 template <typename T>
-struct NodeBT {
-        T data;
-        NodeBT* left;
-        NodeBT* right;
-    };
-
-
-template <typename T>
 class MinHeap {
     
     NodeBT<T>* root;
