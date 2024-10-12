@@ -20,10 +20,10 @@ class MaxHeap {
         int d = 2 * index+2;
         int mayor=index;
 
-        if(e<=nelements && Array[e]>Array[index]){
+        if(e<nelements && Array[e]>Array[index]){
             mayor=e;
         }
-        if(d<=nelements && Array[d]>Array[mayor]){
+        if(d<nelements && Array[d]>Array[mayor]){
             mayor=d;
         }
 
