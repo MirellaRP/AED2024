@@ -11,7 +11,7 @@ class MinHeap {
 
     public:
     
-    MinHeap() : root(NULL), nelements(0) {} // Inicializo el root como null 
+    MinHeap() : nelements(0) {} // Inicializo el root como null 
 
     void MinHeapify (int index){ // Usando el algoritmo de clase y ayuda de ChatGPT
 
