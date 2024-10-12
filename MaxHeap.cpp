@@ -7,8 +7,6 @@ using namespace std;
 
 template <typename T>
 class MaxHeap {
-    
-    NodeBT<T>* root;
     vector<T> Array;
     int nelements;
 
