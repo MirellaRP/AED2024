@@ -99,18 +99,23 @@ class BpT{
         }
     }
 
-    void remove(T value) {
-        if (root == nullptr) return;
+void remove(T value) {
+    if (root == nullptr) return; 
 
-        remove(root, value);
+    remove(root, value);
 
-        if (root->llaves.empty()) {
-            NodeBpT<T>* oldRoot = root;
-            root = (root->leaf) ? nullptr : root->hijos[0];
-            delete oldRoot; 
+    if (root->llaves.empty()) {
+        NodeBpT<T>* oldRoot = root;
+
+        if (root->leaf) {
+            root = nullptr;
+        } else {
+            root = root->hijos[0];
         }
+
+        delete oldRoot;
     }
-};
+}
     void borrowFromPrev(NodeBpT<T>* node, int idx) {
         NodeBpT<T>* child = node->hijos[idx];
         NodeBpT<T>* sibling = node->hijos[idx - 1];
