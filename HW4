@@ -15,6 +15,26 @@ struct NodeBpT {
 template <typename T>
 class BpT{
         NodeBpT<T>* root;
+        int M;
+
+
+        public:
+        BpT(int m): root(NULL), M(m){}
+
+        bool find(NodeBpT<T>* node, T value){
+                int i=0;
+                
+
+
+        }
+
+        bool search(T value){
+                return find(root, value);
+        }
+
+
+
+
 
 }
 
