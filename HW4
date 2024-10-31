@@ -68,12 +68,75 @@ class BpT{
                 return find(root, value);
         }
 
+    // Función para eliminar un valor del árbol B+
+    void remove(NodeBpT<T>* node, T value) {
+        if (node->leaf) {
+            auto it = find(node->llaves.begin(), node->llaves.end(), value);
+            if (it != node->llaves.end()) {
+                node->llaves.erase(it);
+            }
+        } else {
+            int idx = 0;
+            while (idx < node->llaves.size() && value > node->llaves[idx]) {
+                idx++;
+            }
 
+            if (node->hijos[idx]->llaves.size() < M / 2) {
+  
+                if (idx != 0 && node->hijos[idx - 1]->llaves.size() >= M / 2) {
+                    borrowFromPrev(node, idx);
+                } else if (idx != node->llaves.size() && node->hijos[idx + 1]->llaves.size() >= M / 2) {
+                    borrowFromNext(node, idx);
+                } else {
+                    if (idx == node->llaves.size()) {
+                        merge(node, idx - 1);
+                    } else {
+                        merge(node, idx);
+                    }
+                }
+            }
+            remove(node->hijos[idx], value);
+        }
+    }
 
+    void remove(T value) {
+        if (root == nullptr) return;
 
+        remove(root, value);
 
+        if (root->llaves.empty()) {
+            NodeBpT<T>* oldRoot = root;
+            root = (root->leaf) ? nullptr : root->hijos[0];
+            delete oldRoot; 
+        }
+    }
 };
+    void borrowFromPrev(NodeBpT<T>* node, int idx) {
+        NodeBpT<T>* child = node->hijos[idx];
+        NodeBpT<T>* sibling = node->hijos[idx - 1];
 
+        child->llaves.insert(child->llaves.begin(), node->llaves[idx - 1]); 
+        node->llaves[idx - 1] = sibling->llaves.back(); 
+        sibling->llaves.pop_back(); // esto elimina la ult llave
+
+        if (!child->leaf) {
+            child->hijos.insert(child->hijos.begin(), sibling->hijos.back()); 
+            sibling->hijos.pop_back(); 
+        }
+    }
+    void borrowFromNext(NodeBpT<T>* node, int idx) {
+        NodeBpT<T>* child = node->hijos[idx];
+        NodeBpT<T>* sibling = node->hijos[idx + 1];
+
+        child->llaves.push_back(node->llaves[idx]);
+        node->llaves[idx] = sibling->llaves[0];
+        sibling->llaves.erase(sibling->llaves.begin()); 
+
+        if (!child->leaf) {
+            child->hijos.push_back(sibling->hijos[0]);
+            sibling->hijos.erase(sibling->hijos.begin());
+        }
+    }
 int main(){
         BpT<int> bpt(4);
         // bpt.insert(2);
@@ -82,8 +145,12 @@ int main(){
         // bpt.insert(1);
 
         cout<<"Se encuentra el 2?"<<bpt.search(2)<<endl;
+        bpt.remove(6);
+        cout << "\nDespués de eliminar 6:\n";
+        bpt.print();
 
 
+return 0;
 
 }
 
