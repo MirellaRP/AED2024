@@ -1,4 +1,4 @@
-// Basado en https://www.geeksforgeeks.org/cpp-program-to-implement-b-plus-tree/
+// Basado en https://www.geeksforgeeks.org/cpp-program-to-implement-b-plus-tree/, https://www.geeksforgeeks.org/implementation-of-b-plus-tree-in-c/ y chatgpt
 #include <iostream>
 #include <cmath>
 #include <vector>
@@ -9,29 +9,58 @@ struct NodeBpT {
         NodeBpT* next;
         bool leaf;
         vector<T> llaves;
-        vector<NodeBpT*> hijos;
+        vector<NodeBpT*> hijo;
+
+        NodeBpT(bool leafy): next(NULL), leaf(leafy){}
 };
 
 template <typename T>
 class BpT{
+        
         NodeBpT<T>* root;
         int M;
         int k;
-
-
         public:
+
+        
         BpT(int m): root(NULL), M(m), k(m-1){}
 
         bool find(NodeBpT<T>* node, T value){
-                int i=0;
 
-                if(node->leaf==false){  
-
-
+                if(node==NULL){
+                        return false;
                 }
 
+                int i=0;
 
+                if(node->leaf==true){
+                        for (int i = 0; i < node->llaves.size(); i++)
+                        {
+                                if(node->llaves[i]==value){
+                                        return true;
+                                }
+                                
+                        }
+                        return false;
+                        
+                }
+                else{
+                        for (int i = 0; i < node->llaves.size(); i++)
+                        {
+                                if(value<node->llaves[i]){
+                                        return find(node->hijo[i],value);
+                                }else if (value==node->llaves[i]){
+                                        return true;
+                                }
+                        }
+                        if(value>node->llaves[k-1]){
+                                return find(node->hijo[k+1],value);
+                        }
+                       
+                        
+                }
 
+                return false;
 
         }
 
@@ -40,6 +69,19 @@ class BpT{
         }
 
 
+
+
+
+};
+
+int main(){
+        BpT<int> bpt(4);
+        // bpt.insert(2);
+        // bpt.insert(5);
+        // bpt.insert(3);
+        // bpt.insert(1);
+
+        cout<<"Se encuentra el 2?"<<bpt.search(2)<<endl;
 
 
 
