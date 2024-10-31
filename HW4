@@ -59,9 +59,6 @@ class BpT{
                        
                         
                 }
-
-                return false;
-
         }
 
         bool search(T value){
