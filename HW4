@@ -1,0 +1,22 @@
+// Basado en https://www.geeksforgeeks.org/cpp-program-to-implement-b-plus-tree/
+#include <iostream>
+#include <cmath>
+#include <vector>
+using namespace std;
+
+template <typename T>
+struct NodeBpT {
+        NodeBpT* next;
+        bool leaf;
+        vector<T> llaves;
+        vector<NodeBpT*> hijos;
+};
+
+template <typename T>
+class BpT{
+        NodeBpT<T>* root;
+
+}
+
+
+
