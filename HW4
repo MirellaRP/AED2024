@@ -1,73 +1,130 @@
-// Basado en https://www.geeksforgeeks.org/cpp-program-to-implement-b-plus-tree/, https://www.geeksforgeeks.org/implementation-of-b-plus-tree-in-c/ y chatgpt
 #include <iostream>
-#include <cmath>
 #include <vector>
 using namespace std;
 
 template <typename T>
 struct NodeBpT {
-        NodeBpT* next;
-        bool leaf;
-        vector<T> llaves;
-        vector<NodeBpT*> hijo;
+    NodeBpT* next;
+    bool leaf;
+    vector<T> llaves;
+    vector<NodeBpT*> hijo;
 
-        NodeBpT(bool leafy): next(NULL), leaf(leafy){}
+    NodeBpT(bool leafy) : next(NULL), leaf(leafy) {}
 };
 
 template <typename T>
-class BpT{
-        
-        NodeBpT<T>* root;
-        int M;
-        int k;
-        public:
+class BpT {
+    NodeBpT<T>* root;
+    int M;
+    int k;
 
-        
-        BpT(int m): root(NULL), M(m), k(m-1){}
+public:
+    BpT(int m) : root(NULL), M(m), k(m - 1) {}
 
-        bool find(NodeBpT<T>* node, T value){
+    bool find(NodeBpT<T>* node, T value){
 
-                if(node==NULL){
-                        return false;
+        if(node==NULL){
+            return false;
+        }
+
+        int i=0;
+
+        if(node->leaf==true){
+            for (int i = 0; i < node->llaves.size(); i++)
+            {
+                if(node->llaves[i]==value){
+                    return true;
                 }
 
-                int i=0;
+            }
+            return false;
 
-                if(node->leaf==true){
-                        for (int i = 0; i < node->llaves.size(); i++)
-                        {
-                                if(node->llaves[i]==value){
-                                        return true;
-                                }
-                                
-                        }
-                        return false;
-                        
+        }
+        else{
+            for (int i = 0; i < node->llaves.size(); i++)
+            {
+                if(value<node->llaves[i]){
+                    return find(node->hijo[i],value);
+                }else if (value==node->llaves[i]){
+                    return true;
                 }
-                else{
-                        for (int i = 0; i < node->llaves.size(); i++)
-                        {
-                                if(value<node->llaves[i]){
-                                        return find(node->hijo[i],value);
-                                }else if (value==node->llaves[i]){
-                                        return true;
-                                }
-                        }
-                        if(value>node->llaves[k-1]){
-                                return find(node->hijo[k+1],value);
-                        }
-                       
-                        
-                }
+            }
+            if(value>node->llaves[k-1]){
+                return find(node->hijo[k+1],value);
+            }
 
-                return false;
 
         }
 
-        bool search(T value){
-                return find(root, value);
+        return false;
+
+    }
+
+    bool search(T value){
+        return find(root, value);
+    }
+
+    // insercion
+    void insert(T value) {
+        if (root == NULL) {
+            root = new NodeBpT<T>(true);
+            root->llaves.push_back(value);
+        } else {
+            if (root->llaves.size() == M) {
+                NodeBpT<T>* newRoot = new NodeBpT<T>(false);
+                newRoot->hijo.push_back(root);
+                splitChild(newRoot, 0);
+                root = newRoot;
+            }
+            insertNonFull(root, value);
+        }
+    }
+
+    void splitChild(NodeBpT<T>* parent, int index) {
+        NodeBpT<T>* fullNode = parent->hijo[index];
+        NodeBpT<T>* newNode = new NodeBpT<T>(fullNode->leaf);
+        int midIndex = M / 2;
+
+        for (int i = midIndex + 1; i < fullNode->llaves.size(); i++) {
+            newNode->llaves.push_back(fullNode->llaves[i]);
+        }
+        fullNode->llaves.resize(midIndex);
+
+        if (!fullNode->leaf) {
+            for (int i = midIndex + 1; i < fullNode->hijo.size(); i++) {
+                newNode->hijo.push_back(fullNode->hijo[i]);
+            }
+            fullNode->hijo.resize(midIndex + 1);
         }
 
+        parent->llaves.insert(parent->llaves.begin() + index, fullNode->llaves[midIndex]);
+        parent->hijo.insert(parent->hijo.begin() + index + 1, newNode);
+    }
+
+    void insertNonFull(NodeBpT<T>* node, T value) {
+        if (node->leaf) {
+            int i = node->llaves.size() - 1;
+            while (i >= 0 && node->llaves[i] > value) {
+                i--;
+            }
+            node->llaves.insert(node->llaves.begin() + i + 1, value);
+        } else {
+            int i = node->llaves.size() - 1;
+            while (i >= 0 && node->llaves[i] > value) {
+                i--;
+            }
+            i++;
+            if (node->hijo[i]->llaves.size() == M) {
+                splitChild(node, i);
+                if (node->llaves[i] < value) {
+                    i++;
+                }
+            }
+            insertNonFull(node->hijo[i], value);
+        }
+    }
+
+    /*
     // Función para eliminar un valor del árbol B+
     void remove(NodeBpT<T>* node, T value) {
         if (node->leaf) {
@@ -82,7 +139,7 @@ class BpT{
             }
 
             if (node->hijos[idx]->llaves.size() < M / 2) {
-  
+
                 if (idx != 0 && node->hijos[idx - 1]->llaves.size() >= M / 2) {
                     borrowFromPrev(node, idx);
                 } else if (idx != node->llaves.size() && node->hijos[idx + 1]->llaves.size() >= M / 2) {
@@ -99,18 +156,34 @@ class BpT{
         }
     }
 
+    void remove(T value) {
+        if (root == nullptr) return;
 
+        remove(root, value);
+
+        if (root->llaves.empty()) {
+            NodeBpT<T>* oldRoot = root;
+
+            if (root->leaf) {
+                root = nullptr;
+            } else {
+                root = root->hijos[0];
+            }
+
+            delete oldRoot;
+        }
+    }
     void borrowFromPrev(NodeBpT<T>* node, int idx) {
         NodeBpT<T>* child = node->hijos[idx];
         NodeBpT<T>* sibling = node->hijos[idx - 1];
 
-        child->llaves.insert(child->llaves.begin(), node->llaves[idx - 1]); 
-        node->llaves[idx - 1] = sibling->llaves.back(); 
+        child->llaves.insert(child->llaves.begin(), node->llaves[idx - 1]);
+        node->llaves[idx - 1] = sibling->llaves.back();
         sibling->llaves.pop_back(); // esto elimina la ult llave
 
         if (!child->leaf) {
-            child->hijos.insert(child->hijos.begin(), sibling->hijos.back()); 
-            sibling->hijos.pop_back(); 
+            child->hijos.insert(child->hijos.begin(), sibling->hijos.back());
+            sibling->hijos.pop_back();
         }
     }
     void borrowFromNext(NodeBpT<T>* node, int idx) {
@@ -119,29 +192,80 @@ class BpT{
 
         child->llaves.push_back(node->llaves[idx]);
         node->llaves[idx] = sibling->llaves[0];
-        sibling->llaves.erase(sibling->llaves.begin()); 
+        sibling->llaves.erase(sibling->llaves.begin());
 
         if (!child->leaf) {
             child->hijos.push_back(sibling->hijos[0]);
             sibling->hijos.erase(sibling->hijos.begin());
         }
     }
-int main(){
-        BpT<int> bpt(4);
-        // bpt.insert(2);
-        // bpt.insert(5);
-        // bpt.insert(3);
-        // bpt.insert(1);
 
-        cout<<"Se encuentra el 2?"<<bpt.search(2)<<endl;
-        bpt.remove(6);
-        cout << "\nDespués de eliminar 6:\n";
-        bpt.print();
+    void merge(NodeBpT<T>* node, int idx) {
+        NodeBpT<T>* leftChild = node->hijo[idx];
+        NodeBpT<T>* rightChild = node->hijo[idx + 1];
 
+        leftChild->llaves.push_back(node->llaves[idx]);
 
-return 0;
+        for (T key : rightChild->llaves) {
+            leftChild->llaves.push_back(key);
+        }
+        if (!leftChild->leaf) {
+            for (NodeBpT<T>* child : rightChild->hijo) {
+                leftChild->hijo.push_back(child);
+            }
+        }
 
+        node->llaves.erase(node->llaves.begin() + idx);
+        node->hijo.erase(node->hijo.begin() + idx + 1);
+        delete rightChild;
+    }
+     
+     */
+     
+    void print(NodeBpT<T>* node, int depth = 0) {
+        if (node == NULL) return;
+        for (int i = 0; i < depth; i++) cout << "  ";
+        for (T key : node->llaves) cout << key << " ";
+        cout << endl;
+        if (!node->leaf) {
+            for (NodeBpT<T>* child : node->hijo) {
+                print(child, depth + 1);
+            }
+        }
+    }
+
+    void print() {
+        print(root);
+    }
+};
+
+int main() {
+    BpT<int> bpt(4);
+
+    // Inserciones
+    bpt.insert(2);
+    bpt.insert(5);
+    bpt.insert(3);
+    bpt.insert(1);
+    bpt.insert(6);
+    bpt.insert(4);
+    bpt.insert(8);
+    bpt.insert(7);
+
+    cout << "Estructura del arbol B+ despues de inserciones:\n";
+    bpt.print();
+
+    cout << "Se encuentra el 2? " << (bpt.search(2) ? "si" : "no") << endl;
+    cout << "Se encuentra el 9? " << (bpt.search(9) ? "si" : "no") << endl;
+
+    /*
+    bpt.remove(6);
+    cout << "\nDespués de eliminar 6:\n";
+    bpt.print();
+
+    bpt.remove(3);
+    cout << "\nDespués de eliminar 3:\n";
+    bpt.print();
+*/
+    return 0;
 }
-
-
-
