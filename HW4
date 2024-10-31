@@ -16,14 +16,21 @@ template <typename T>
 class BpT{
         NodeBpT<T>* root;
         int M;
+        int k;
 
 
         public:
-        BpT(int m): root(NULL), M(m){}
+        BpT(int m): root(NULL), M(m), k(m-1){}
 
         bool find(NodeBpT<T>* node, T value){
                 int i=0;
-                
+
+                if(node->leaf==false){  
+
+
+                }
+
+
 
 
         }
