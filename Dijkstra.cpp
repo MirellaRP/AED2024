@@ -263,7 +263,6 @@ class Graph{
     void aristas(T a, T b, T w){
         nodo[a].push_back(b,w);
         nodo[b].push_back(a,w);
-
     }
 
     void printLA(){
@@ -300,9 +299,11 @@ class Graph{
         vector<int> S;
         MinHeap<int> Q;
 
-        //Insertar min heap valores de todos los grafos
+        for(int i=0; i<size; i++){ //Insertar min heap valores de todos los grafos
+            Q.insert(i);
+        }
+       
         while(Q.isempty()!=true){
-
             int u = Q.pop();
             S.push_back(u);
 
@@ -310,9 +311,7 @@ class Graph{
                 pair<int,int> lau= nodo[u][i];
                 relax(u,lau.first,lau.second);
             }
-
         }
-
         return{d,padre};
     }
 
@@ -330,10 +329,20 @@ class Graph{
 
 int main(){
 
-    Graph<char> grafo(8);
+    int size = 4;
+    Graph<char> grafo(size);
 
     grafo.aristas(0,1,1);
-    grafo.aristas(0,4,1);
+    grafo.aristas(0,3,3);
+    grafo.aristas(1,2,2);
+    
+
+    pair<vector<int>,vector<int>> valores=grafo.dijkstra(0);
+    vector<int> d = valores.first;
+
+    for(int i=0; i<size; i++){
+        cout<<d[i]<<endl;
+    }
 
 
 }
