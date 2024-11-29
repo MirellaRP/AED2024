@@ -35,13 +35,13 @@ class QuadTree{
     int compare(Punto R, Punto K){
         // Si retorna 1 es NW, si retorna 2 es NE, si es 3 SW, si es 4 es SE.
 
-        if(     R.x>=K.x    && R.y>K.y){
+        if(     R.x>K.x    && R.y>K.y){
             return 1;
         }else if(R.x<K.x    && R.y>K.y){
             return 2;
-        }else if(R.x>=K.x   && R.y<=K.y){
+        }else if(R.x>K.x   && R.y<K.y){
             return 3; 
-        }else if(R.x<K.x    && R.y<=K.y){
+        }else if(R.x<K.x    && R.y<K.y){
             return 4;
         }
 
