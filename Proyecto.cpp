@@ -33,7 +33,6 @@ class QuadTree{
     QuadTree(int x, int y): limitX(x),limitY(y){}
 
     int compare(Punto R, Punto K){
-        
         // Si retorna 1 es NW, si retorna 2 es NE, si es 3 SW, si es 4 es SE.
 
         if(     R.x>=K.x    && R.y>K.y){
@@ -121,6 +120,8 @@ class QuadTree{
 
         cout<<"Raiz: "<<root->dato<<endl;
         cout<<"Raiz NW: "<<root->NW->dato<<endl;
+        cout<<"Raiz NW NW: "<<root->NW->NW->dato<<endl;
+        cout<<"Raiz NW SE: "<<root->NW->SE->dato<<endl;
         cout<<"Raiz SW: "<<root->SW->dato<<endl;
         cout<<"Raiz SE: "<<root->SE->dato<<endl;
 
@@ -141,11 +142,15 @@ int main(){
     Punto B(20,20);
     Punto C(100,100);
     Punto D(60,80);
+    Punto E(5,5);
+    Punto F(50,50);
 
     Quadtree.insert(A,'A');
     Quadtree.insert(B,'B');
     Quadtree.insert(C,'C');
     Quadtree.insert(D,'D');
+    Quadtree.insert(E,'E');
+    Quadtree.insert(F,'F');
 
     Quadtree.getStruct();
 
